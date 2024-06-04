@@ -15,6 +15,7 @@
   gap: 50px;
   color: white;
   font-size: 18px;
+  font-size: 20px;
 }
 
 .footer-links li {
@@ -24,6 +25,7 @@
 .footer-social-icon {
   display: flex;
   gap: 20px;
+  cursor: pointer;
 }
 
 .footer-icons-container {
@@ -42,10 +44,11 @@
   margin-bottom: 30px;
   color: white;
   font-size: 14px;
+  font-size: 18px;
 }
 
 .footer-copyright hr {
-  width: 80%;
+  width: 85%;
   border: none;
   border-radius: 10px;
   height: 3px;
