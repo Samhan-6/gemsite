@@ -21,7 +21,7 @@ const Nav = () => {
   return (
     <div className='navbar'>
       <div className='nav-logo'>
-        <Link to='/'>
+        <Link to='/' onClick={() => setMenu('shop')}>
           <img src={logo} alt='' />
         </Link>
       </div>
