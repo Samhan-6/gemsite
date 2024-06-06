@@ -61,9 +61,6 @@ const ProductDisplay = (props) => {
         <p className='productdisplay-right-category'>
           <span>Category : </span> Women, T-Shirt, Crop Top
         </p>
-        <p className='productdisplay-right-category'>
-          <span>Tags : </span> Modern, Latest
-        </p>
       </div>
     </div>
   )
