@@ -6,22 +6,42 @@
 .productdisplay-left {
   display: flex;
   gap: 17px;
+  /* updated code */
+  flex-direction: column;
+  align-items: center;
 }
 
 .productdisplay-img-list {
   display: flex;
-  flex-direction: column;
-  gap: 16px;
+  flex-wrap: wrap; /* Allow items to wrap if needed */
+  justify-content: space-between; /* Distribute evenly */
+  gap: 16px; /* Adjust gap between images */
+  width: 100%;
 }
 
 .productdisplay-img-list img {
   height: 163px;
+  width: calc(25% - 16px); /* Calculate width based on gap and number of columns (4) */
+  object-fit: cover;
 }
 
 .productdisplay-main-img {
   width: 100%;
   max-width: 586px;
   height: auto;
+  /* updated code */
+  object-fit: cover;
+}
+
+/* New addition for positioning the image list */
+.productdisplay-left > .productdisplay-img-main {
+  /* Move main image to the top of the stack */
+  order: 0;
+}
+
+.productdisplay-left > .productdisplay-img-list {
+  /* Move image list below the main image */
+  order: 1;
 }
 
 .productdisplay-right {
