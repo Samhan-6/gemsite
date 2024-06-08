@@ -21,7 +21,7 @@ const Nav = () => {
   return (
     <div className='navbar'>
       <div className='nav-logo'>
-        <Link to='/'>
+        <Link to='/' onClick={() => setMenu('shop')}>
           <img src={logo} alt='' />
         </Link>
       </div>
@@ -69,9 +69,21 @@ const Nav = () => {
       </ul>
 
       <div className='nav-login-cart'>
-        <Link to='/login'>
-          <button>Login</button>
-        </Link>
+        {localStorage.getItem('auth-token') ? (
+          <button
+            onClick={() => {
+              localStorage.removeItem('auth-token')
+              window.location.replace('/')
+            }}>
+            Logout
+          </button>
+        ) : (
+          <Link to='/login'>
+            {' '}
+            <button>Login</button>{' '}
+          </Link>
+        )}
+
         <Link to='/cart'>
           <img src={cart} alt='' />
         </Link>

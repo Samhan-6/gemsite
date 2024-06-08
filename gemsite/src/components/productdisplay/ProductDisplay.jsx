@@ -1,6 +1,8 @@
 import './ProductDisplay.css'
 import star_icon from '../../assets/star_icon.png'
 import star_dull_icon from '../../assets/star_dull_icon.png'
+import bag_cart from '../../assets/icons/shopping-bag.png'
+
 import { useContext } from 'react'
 import { ShopContext } from '../../context/ShopContext'
 
@@ -23,6 +25,8 @@ const ProductDisplay = (props) => {
           <img className='productdisplay-main-img' src={product.image} alt='' />
         </div>
       </div>
+
+      {/* product details card */}
       <div className='productdisplay-right'>
         <h1>{product.name}</h1>
         <div className='productdisplay-right-star'>
@@ -40,30 +44,20 @@ const ProductDisplay = (props) => {
         <div className='productdisplay-right-description'>
           A lightweight, usually i lk and sri lanka gem stone blue saphire green saphite all saphire has
         </div>
-        <div className='productdisplay-right-size'>
-          <h1>Select Size</h1>
-          <div className='productdisplay-right-sizes'>
-            <div>S</div>
-            <div>M</div>
-            <div>L</div>
-            <div>XL</div>
-            <div>XXl</div>
-          </div>
-        </div>
 
-        {/* add to cart */}
-        <button
-          onClick={() => {
-            addToCart(product.id)
-          }}>
-          ADD TO CART
-        </button>
-        <p className='productdisplay-right-category'>
-          <span>Category : </span> Women, T-Shirt, Crop Top
-        </p>
-        <p className='productdisplay-right-category'>
-          <span>Tags : </span> Modern, Latest
-        </p>
+        <div className='callto-action'>
+          {/* add to cart */}
+          <button
+            className='callto-action-primary'
+            onClick={() => {
+              addToCart(product.id)
+            }}>
+            <img src={bag_cart} alt='' />
+          </button>
+
+          {/* contact to buy section */}
+          <button className='callto-action-secondary'>Contact to buy</button>
+        </div>
       </div>
     </div>
   )
