@@ -63,14 +63,10 @@ const CartItems = () => {
               <h3>Total</h3>
               <h3>${getTotalCartAmounts()}</h3>
             </div>
-          </div>
-          <button>PROCEED TO CHECKOUT</button>
-        </div>
-        <div className='cartitems-promocode'>
-          <p>If you have a promo code, Enter it here</p>
-          <div className='cartitems-promobox'>
-            <input type='text' placeholder='Promo Code' />
-            <button>Submit</button>
+            <div className='cartitems-button'>
+              <button className='continue-shop-btn'>Continue Shopping</button>
+              <button className='buy-btn'>Contact to Buy</button>
+            </div>
           </div>
         </div>
       </div>
