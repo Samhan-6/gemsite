@@ -8,14 +8,14 @@
 
 .popular h1 {
   color: #171717;
-  font-size: 50px;
-  font-weight: 600;
+  font-size: 36px;
+  font-weight: 400;
 }
 
 .popular hr {
-  width: 200px;
-  height: 6px;
-  border-radius: 10px;
+  width: 250px;
+  height: 3px;
+  border-radius: 8px;
   background: #252525;
 }
 
