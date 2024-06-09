@@ -3,6 +3,8 @@ import arrow_icon from '../../assets/icons/arrow.png'
 import hero from '../../assets/hero_image.png'
 import './Hero.css'
 
+import { Link } from 'react-router-dom'
+
 const Hero = () => {
   return (
     <div className='hero'>
@@ -17,13 +19,10 @@ const Hero = () => {
           <p>Add a touch of vibrant personality to your life with our dazzling gemstones.</p>
         </div>
 
-        <div className='hero-latest-btn'>
+        <Link to='/precious' className='hero-latest-btn'>
           <div>Explore our collections</div>
           <img src={arrow_icon} alt='' />
-        </div>
-      </div>
-      <div className='hero-right'>
-        <img src={hero} alt='' />
+        </Link>
       </div>
     </div>
   )
