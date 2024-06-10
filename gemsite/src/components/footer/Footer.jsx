@@ -27,16 +27,27 @@ const Footer = () => {
 
       <div className='footer-social-icon'>
         <div className='footer-icons-container'>
-          <img src={instagram_icon} alt='' />
+          <a href='https://www.instagram.com/rajwa_gems/' target='_blank' rel='noopener noreferrer'>
+            <img src={instagram_icon} alt='Instagram' />
+          </a>
         </div>
         <div className='footer-icons-container'>
-          <img src={facebook_icon} alt='' />
+          <a href='#facebook' target='_blank' rel='noopener noreferrer'>
+            <img src={facebook_icon} alt='Facebook' />
+          </a>
         </div>
         <div className='footer-icons-container'>
-          <img src={whatsapp_icon} alt='' />
+          <a href='https://wa.me/+94761509204' target='_blank' rel='noopener noreferrer'>
+            <img src={whatsapp_icon} alt='WhatsApp' />
+          </a>
         </div>
         <div className='footer-icons-container'>
-          <img src={wechat_icon} alt='' />
+          <a
+            href='https://drive.google.com/uc?export=view&id=1onvPtMhfdE908_4lBd5oCBSUeoPXvVNQ'
+            target='_blank'
+            rel='noopener noreferrer'>
+            <img src={wechat_icon} alt='Wechat' />
+          </a>
         </div>
       </div>
       <div className='footer-copyright'>
