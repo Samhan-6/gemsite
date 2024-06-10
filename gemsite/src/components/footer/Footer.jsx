@@ -4,14 +4,25 @@ import facebook_icon from '../../assets/facebook.png'
 import whatsapp_icon from '../../assets/whatsapp_icon.png'
 import wechat_icon from '../../assets/wechat.png'
 
+import { Link } from 'react-router-dom'
+
 const Footer = () => {
   return (
     <div className='footer'>
       <ul className='footer-links'>
         <li>Offices</li>
-        <li>About</li>
-        <li>Contact</li>
-        <li>Services</li>
+
+        <Link to='/about' style={{ textDecoration: 'none', color: 'black' }}>
+          <li>About</li>
+        </Link>
+
+        <Link to='/contact' style={{ textDecoration: 'none', color: 'black' }}>
+          <li>Contact</li>
+        </Link>
+
+        <Link to='/services' style={{ textDecoration: 'none', color: 'black' }}>
+          <li>Services</li>
+        </Link>
       </ul>
 
       <div className='footer-social-icon'>
