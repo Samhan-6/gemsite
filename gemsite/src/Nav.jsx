@@ -34,7 +34,7 @@ const Nav = () => {
           onClick={() => {
             setMenu('shop')
           }}>
-          <Link style={{ textDecoration: 'none' }} to='/'>
+          <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/'>
             Shop
           </Link>{' '}
           {menu === 'shop' ? <hr /> : <></>}
@@ -43,7 +43,7 @@ const Nav = () => {
           onClick={() => {
             setMenu('precious')
           }}>
-          <Link style={{ textDecoration: 'none' }} to='/precious'>
+          <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/precious'>
             Precious Gems
           </Link>{' '}
           {menu === 'precious' ? <hr /> : <></>}
@@ -52,7 +52,7 @@ const Nav = () => {
           onClick={() => {
             setMenu('semi')
           }}>
-          <Link style={{ textDecoration: 'none' }} to='/semi'>
+          <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/semi'>
             Semi-Precious Gems
           </Link>{' '}
           {menu === 'semi' ? <hr /> : <></>}
@@ -61,7 +61,7 @@ const Nav = () => {
           onClick={() => {
             setMenu('unique')
           }}>
-          <Link style={{ textDecoration: 'none' }} to='/unique'>
+          <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/unique'>
             Unique Gems
           </Link>{' '}
           {menu === 'unique' ? <hr /> : <></>}
