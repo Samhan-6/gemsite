@@ -14,16 +14,16 @@
 .newsletter h1 {
   color: black;
   font-size: 22px;
-  font-weight: 350;
+  font-weight: 400;
 }
 
 .newsletter p {
   color: black;
-  font-size: 16px;
-  font-weight: 250;
+  font-size: 15px;
+  font-weight: 300;
 }
 
-.newsletter div {
+.newsletter form {
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -34,7 +34,7 @@
   border: 1px solid #e3e3e3;
 }
 
-.newsletter input {
+.newsletter input[type='email'] {
   width: 350px;
   margin-left: 30px;
   border: none;
@@ -45,7 +45,11 @@
   font-weight: 400;
 }
 
-.newsletter div button {
+.newsletter input[type='email'].error {
+  border-color: red;
+}
+
+.newsletter form button {
   width: 170px;
   height: 55px;
   border-radius: 80px;
