@@ -1,14 +1,16 @@
 import './About.css'
+import mission_img from '../../assets/images/we.jpeg'
+import founding_story_img from '../../assets/images/gemring.jpg'
 
 const About = () => {
   return (
     <div className='about-page'>
       <div className='mission'>
         <div className='img-right'>
-          <img src={''} alt='' />
+          <img src={mission_img} alt='' />
         </div>
         <div className='content-left'>
-          <h1>Mission</h1>
+          <h1>Our Mission</h1>
           <p>
             At Samhan Gems, our mission is to provide the highest quality gemstones to our discerning customers,
             delivering unmatched beauty and value with every piece. We are dedicated to sourcing and selling the finest
@@ -22,7 +24,7 @@ const About = () => {
 
       <div className='founding-story'>
         <div className='img-left'>
-          <img src={''} alt='' />
+          <img src={founding_story_img} alt='' />
         </div>
         <div className='content-right'>
           <h1>Our Story</h1>
