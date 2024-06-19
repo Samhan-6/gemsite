@@ -1,0 +1,140 @@
+.contact {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.get-in-touch {
+  width: 100%;
+  height: auto;
+  background: #127369;
+  position: relative;
+  margin-bottom: 40px;
+}
+
+.get-in-touch h1 {
+  color: white;
+  margin-top: 15px;
+  font-size: 26px;
+  font-weight: 400;
+  text-align: center;
+}
+
+.get-in-touch p {
+  display: flex;
+  color: white;
+  font-size: 16px;
+  font-weight: 310;
+  margin: 35px;
+  justify-content: center;
+  text-align: center;
+  line-height: 1.6;
+}
+
+.contact-info {
+  flex: 1;
+  padding: 20px;
+  background: #f2f2f2;
+  border-radius: 5px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  margin: 20px;
+}
+
+.contact-info h2 {
+  font-size: 26px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+  padding-bottom: 20px;
+}
+
+.contact-info p {
+  font-size: 16px;
+  color: #555;
+  margin: 10px 0;
+  padding: 10px;
+}
+
+.contact-info p img.icon {
+  margin-right: 30px;
+  width: 20px;
+  height: 20px;
+}
+
+.contact-info hr {
+  height: 1px;
+  width: 90%;
+}
+
+.contact-info p a {
+  color: #0a71f7;
+  text-decoration: none;
+  transition: color 0.3s;
+}
+
+.contact-info p span {
+  margin-right: 65px;
+}
+
+.contact-info a:hover {
+  color: #1558b3;
+}
+
+.contact-info p:last-child {
+  margin-bottom: 0;
+}
+
+.contact-form {
+  flex: 1;
+  padding: 25px;
+  background: #f2f2f2;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  margin: 20px;
+}
+
+.contact-form h2 {
+  font-size: 26px;
+  font-weight: 400;
+  text-align: center;
+  margin-bottom: 20px;
+  color: #333;
+}
+
+.contact-form form {
+  display: flex;
+  flex-direction: column;
+}
+
+.contact-form label {
+  margin-top: 10px;
+  font-size: 16px;
+  font-weight: 450;
+}
+
+.contact-form input {
+  width: 70%;
+  padding: 10px;
+  margin-top: 5px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.contact-form button {
+  width: 25%;
+  margin-top: 20px;
+  padding: 10px;
+  background-color: #1a73e8;
+  color: white;
+  border: none;
+  font-size: 16px;
+  font-weight: 300;
+  border-radius: 4px;
+  align-items: center;
+  cursor: pointer;
+}
+
+.contact-form button:hover {
+  background-color: #1558b3;
+}
