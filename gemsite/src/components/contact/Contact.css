@@ -34,7 +34,7 @@
 .contact-info {
   flex: 1;
   padding: 20px;
-  background: #f2f2f2;
+  background: #ffffff;
   border-radius: 5px;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   margin: 20px;
@@ -88,7 +88,7 @@
 .contact-form {
   flex: 1;
   padding: 25px;
-  background: #f2f2f2;
+  background: #ffffff;
   box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
   border-radius: 5px;
   margin: 20px;
