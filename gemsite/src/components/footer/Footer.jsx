@@ -10,8 +10,6 @@ const Footer = () => {
   return (
     <div className='footer'>
       <ul className='footer-links'>
-        <li>Offices</li>
-
         <Link to='/about' style={{ textDecoration: 'none', color: 'black' }}>
           <li>About</li>
         </Link>
