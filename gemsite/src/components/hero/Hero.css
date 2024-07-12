@@ -214,32 +214,33 @@
     background-image: url('../../assets/gem-jew-2.jpg');
     background-size: cover;
     background-position: center;
-    height: 53vh;
+    height: 60vh;
   }
 
   .hero-left {
     padding: 35px;
-    gap: 13px;
+    gap: 10px;
   }
 
   .hero-left h2 {
-    font-size: 16px;
+    font-size: 13px;
     font-weight: 300;
   }
 
   .hero-left p {
-    font-size: 28px;
+    font-size: 25px;
     font-weight: 300;
   }
 
   .hero-latest-btn {
     width: 165px;
-    height: 38px;
-    font-size: 13px;
+    height: 40px;
+    font-size: 14px;
+    font-weight: 320;
   }
 
   .hero-latest-btn img {
-    width: 15px;
-    height: 8px;
+    width: 16px;
+    height: 9px;
   }
 }
