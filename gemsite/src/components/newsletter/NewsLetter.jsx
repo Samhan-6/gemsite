@@ -25,7 +25,7 @@ const NewsLetter = () => {
     <div className='newsletter'>
       <h1>Subscribe to our Newsletter</h1>
       <p>
-        Stay Informed About <span>Rajwa Gems</span> Latest Gems & Exclusive Launches{' '}
+        Stay Informed About <span>Rajwa Gems</span> Latest Gems & Exclusive Launches
       </p>
 
       {!isEmailValid && <p className='error-message'>Please enter a valid email address</p>}
