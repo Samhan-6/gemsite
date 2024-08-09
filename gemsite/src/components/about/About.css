@@ -119,6 +119,60 @@
 }
 
 /* Mobile view adjustments */
+@media (max-width: 768px) {
+  .about-header {
+    height: 250px; /* Reduce height for mobile view */
+  }
+
+  .about-header h2 {
+    font-size: 32px; /* Smaller font size for mobile */
+  }
+
+  .about {
+    padding: 20px; /* Reduce padding for mobile */
+    margin: 30px 10px; /* Adjust margin for mobile */
+  }
+
+  .mission,
+  .founding-story {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center align items */
+    margin: 30px 0; /* Adjust margin for mobile */
+  }
+
+  .content-left,
+  .content-right {
+    flex: 1; /* Allow both content sections to take full width */
+    text-align: center; /* Center text for mobile */
+    padding: 10px; /* Reduce padding for mobile */
+  }
+
+  .content-left h1,
+  .content-right h1 {
+    font-size: 28px; /* Smaller font size for mobile */
+  }
+
+  .content-left p,
+  .content-right p {
+    font-size: 14px; /* Smaller font size for mobile */
+    max-width: 100%; /* Allow text to take full width */
+  }
+
+  .img-right,
+  .img-left {
+    order: 1; /* Stack images below text */
+    flex: 1; /* Allow images to take full width */
+    padding: 10px; /* Reduce padding for mobile */
+  }
+
+  .img-right img,
+  .img-left img {
+    width: 100%; /* Ensure images are responsive */
+    height: auto; /* Maintain aspect ratio */
+  }
+}
+
+/* Mobile view adjustments */
 @media (min-width: 320px) and (max-width: 480px) {
   .about-header {
     height: 250px; /* Reduce height for mobile view */
