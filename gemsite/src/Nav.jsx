@@ -10,12 +10,12 @@ import nav_dropdown from './assets/drop_down.png'
 
 const Nav = () => {
   const [menu, setMenu] = useState('shop')
+  const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
   const { getTotalCartItems } = useContext(ShopContext)
   const menuRef = useRef()
 
-  const dropdown_toggle = (e) => {
-    menuRef.current.classList.toggle('nav-menu-visible')
-    e.target.classList.toggle('open')
+  const toggleMobileMenu = () => {
+    setIsMobileMenuOpen(!isMobileMenuOpen)
   }
 
   return (
@@ -26,13 +26,11 @@ const Nav = () => {
         </Link>
       </div>
 
-      {/* dropdown image */}
-      <img className='nav-dropdown' onClick={dropdown_toggle} src={nav_dropdown} alt='' />
-
-      <ul ref={menuRef} className='nav-menu'>
+      <ul ref={menuRef} className={`nav-menu ${isMobileMenuOpen ? 'open' : ''}`}>
         <li
           onClick={() => {
             setMenu('shop')
+            setIsMobileMenuOpen(false)
           }}>
           <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/'>
             Shop
@@ -42,6 +40,7 @@ const Nav = () => {
         <li
           onClick={() => {
             setMenu('precious')
+            setIsMobileMenuOpen(false)
           }}>
           <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/precious'>
             Precious Gems
@@ -51,6 +50,7 @@ const Nav = () => {
         <li
           onClick={() => {
             setMenu('semi')
+            setIsMobileMenuOpen(false)
           }}>
           <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/semi'>
             Semi-Precious Gems
@@ -60,6 +60,7 @@ const Nav = () => {
         <li
           onClick={() => {
             setMenu('unique')
+            setIsMobileMenuOpen(false)
           }}>
           <Link style={{ textDecoration: 'none', color: '#011F26' }} to='/unique'>
             Unique Gems
@@ -88,6 +89,13 @@ const Nav = () => {
           <img src={cart} alt='' />
         </Link>
         <div className='nav-cart-count'>{getTotalCartItems()}</div>
+      </div>
+
+      {/* setting hurmburger menu only for mobile view */}
+      <div className='hamburger' onClick={toggleMobileMenu}>
+        <div className={`line ${isMobileMenuOpen ? 'active' : ''}`}></div>
+        <div className={`line ${isMobileMenuOpen ? 'active' : ''}`}></div>
+        <div className={`line ${isMobileMenuOpen ? 'active' : ''}`}></div>
       </div>
     </div>
   )
