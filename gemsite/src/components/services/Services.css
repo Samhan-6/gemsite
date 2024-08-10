@@ -169,40 +169,40 @@ h3 {
   }
 
   .img-section h2 {
-    font-size: 28px; /* Smaller font size for mobile */
+    font-size: 28px;
   }
 
   .our-services {
-    flex-direction: column; /* Stack elements vertically */
-    align-items: center; /* Center items */
-    padding: 15px; /* Adjust padding */
+    flex-direction: column;
+    align-items: center;
+    padding: 15px;
   }
 
   .our-services h2 {
-    margin: 0 0 15px; /* Adjust margin for mobile */
-    font-size: 24px; /* Smaller font size for mobile */
-    text-align: center; /* Center text */
+    margin: 0 0 15px;
+    font-size: 24px;
+    text-align: center;
   }
 
   .our-services p {
-    margin: 0 0 15px; /* Adjust margin for mobile */
-    font-size: 14px; /* Smaller font size for mobile */
+    margin: 0 0 15px;
+    font-size: 14px;
     font-weight: 380;
-    text-align: center; /* Center text */
+    text-align: center;
   }
 
   .services-content {
-    flex-direction: column; /* Stack cards vertically */
-    align-items: center; /* Center cards */
+    flex-direction: column;
+    align-items: center;
   }
 
   .service-cards {
-    justify-content: center; /* Center cards */
+    justify-content: center;
   }
 
   .card {
-    width: 100%; /* Full width for cards on mobile */
-    max-width: 300px; /* Limit max width */
-    margin: 10px 0; /* Add margin for spacing */
+    width: 100%;
+    max-width: 300px;
+    margin: 10px 0;
   }
 }
