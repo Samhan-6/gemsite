@@ -120,6 +120,47 @@ h3 {
 }
 
 /* Media Queries for Mobile View */
+@media (max-width: 768px) {
+  .img-section h2 {
+    font-size: 32px; /* Smaller font size for mobile */
+  }
+
+  .our-services {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items */
+    padding: 20px; /* Adjust padding */
+    margin: 25px;
+  }
+
+  .our-services h2 {
+    margin: 0 0 15px; /* Adjust margin for mobile */
+    font-size: 28px; /* Smaller font size for mobile */
+    text-align: center; /* Center text */
+  }
+
+  .our-services p {
+    margin: 0 0 15px; /* Adjust margin for mobile */
+    padding: 0 15px; /* Adjust padding */
+    font-size: 16px; /* Smaller font size for mobile */
+    text-align: center; /* Center text */
+  }
+
+  .services-content {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center cards */
+  }
+
+  .service-cards {
+    justify-content: center; /* Center cards */
+  }
+
+  .card {
+    width: 100%; /* Full width for cards on mobile */
+    max-width: 300px; /* Limit max width */
+    margin: 10px 0; /* Add margin for spacing */
+  }
+}
+
 @media (max-width: 480px) {
   .img-section img {
     height: 38vh;
