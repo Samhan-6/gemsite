@@ -144,3 +144,112 @@
 .contact-form button:hover {
   background-color: #0056b3;
 }
+
+/* Media Queries for Mobile Responsiveness */
+@media (max-width: 768px) {
+  .contact-info {
+    max-width: 100%;
+    margin-left: 0;
+  }
+
+  .contact-form {
+    max-width: 100%;
+    margin-right: 0;
+    padding: 35px;
+  }
+
+  .contact-form h2 {
+    font-size: 26px;
+  }
+
+  .contact-form p {
+    font-size: 15px;
+  }
+
+  .contact-form .form-row {
+    flex-direction: column;
+  }
+
+  .form-row input {
+    width: 100%;
+    font-size: 13px;
+  }
+
+  .contact-form textarea {
+    font-size: 13px;
+  }
+
+  .contact-form button {
+    width: 100%;
+  }
+
+  .get-in-touch h1 {
+    font-size: 26px;
+  }
+
+  .get-in-touch p {
+    font-size: 14px;
+  }
+
+  .contact-card a,
+  .contact-card p {
+    font-size: 14px; /* Adjust font size for better readability */
+  }
+}
+
+/* Media Queries for Mobile Responsiveness */
+@media (min-width: 320px) and (max-width: 480px) {
+  .contact-info {
+    max-width: 100%;
+    margin-left: 0;
+    padding: 15px; /* Add some padding for better spacing */
+  }
+
+  .contact-form {
+    max-width: 100%;
+    margin-right: 0;
+    padding: 28px; /* Add some padding for better spacing */
+  }
+
+  .contact-form .form-row {
+    flex-direction: column;
+  }
+
+  .form-row input,
+  .contact-form textarea {
+    width: 100%;
+    font-size: 12px; /* Adjust font size for better readability */
+  }
+
+  .contact-form h2 {
+    font-size: 24px;
+  }
+
+  .contact-form p {
+    font-size: 14px;
+  }
+
+  .contact-form button {
+    width: 100%;
+    padding: 11px; /* Increase padding for better touch targets */
+    font-size: 14px; /* Adjust font size for better readability */
+  }
+
+  .get-in-touch h1 {
+    font-size: 24px; /* Further reduce font size for smaller screens */
+  }
+
+  .get-in-touch p {
+    font-size: 13px; /* Further reduce font size for smaller screens */
+    margin: 25px; /* Adjust margin for better spacing */
+  }
+
+  .contact-card h3 {
+    font-size: 16px; /* Adjust heading size */
+  }
+
+  .contact-card a,
+  .contact-card p {
+    font-size: 12px; /* Adjust font size for better readability */
+  }
+}
