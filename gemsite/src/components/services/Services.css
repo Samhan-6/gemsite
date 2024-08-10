@@ -1,8 +1,3 @@
-.service {
-  position: relative;
-  padding: 20px;
-}
-
 .img-section {
   position: relative;
   width: 100%;
@@ -89,6 +84,12 @@
   width: 250px;
 }
 
+.card p {
+  padding: 8px;
+  font-size: 15px;
+  font-weight: 350;
+}
+
 .card:hover {
   transform: translateY(-5px);
 }
@@ -116,4 +117,51 @@ h3 {
   background-color: #e0e0e0;
   border-radius: 50%;
   padding: 10px;
+}
+
+/* Media Queries for Mobile View */
+@media (max-width: 480px) {
+  .img-section img {
+    height: 38vh;
+    display: block;
+    object-fit: cover;
+  }
+
+  .img-section h2 {
+    font-size: 28px; /* Smaller font size for mobile */
+  }
+
+  .our-services {
+    flex-direction: column; /* Stack elements vertically */
+    align-items: center; /* Center items */
+    padding: 15px; /* Adjust padding */
+  }
+
+  .our-services h2 {
+    margin: 0 0 15px; /* Adjust margin for mobile */
+    font-size: 24px; /* Smaller font size for mobile */
+    text-align: center; /* Center text */
+  }
+
+  .our-services p {
+    margin: 0 0 15px; /* Adjust margin for mobile */
+    font-size: 14px; /* Smaller font size for mobile */
+    font-weight: 380;
+    text-align: center; /* Center text */
+  }
+
+  .services-content {
+    flex-direction: column; /* Stack cards vertically */
+    align-items: center; /* Center cards */
+  }
+
+  .service-cards {
+    justify-content: center; /* Center cards */
+  }
+
+  .card {
+    width: 100%; /* Full width for cards on mobile */
+    max-width: 300px; /* Limit max width */
+    margin: 10px 0; /* Add margin for spacing */
+  }
 }

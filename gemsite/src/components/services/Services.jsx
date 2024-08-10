@@ -36,8 +36,10 @@ const Services = () => {
           <div class='card'>
             <img src={shipping_icon} alt='' class='icon' />
             <h3>Worldwide Shipping</h3>
-            pWe offer reliable international shipping with tracking and insurance to ensure your gemstones reach you
-            safely.
+            <p>
+              We offer reliable international shipping with tracking and insurance to ensure your gemstones reach you
+              safely.
+            </p>
           </div>
           <div class='card'>
             <img src={certificate_icon} alt='' class='icon' />
