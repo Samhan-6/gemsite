@@ -24,6 +24,7 @@ app.use(express.json())
 app.use(cors())
 
 
+const PORT = process.env.PORT || 4000
 
 
 // api creation
@@ -47,7 +48,7 @@ app.use('/images', express.static('upload/images'))
 app.post('/upload', upload.single('product'), (req, res) => {
     res.json({
         success: 1,
-        image_url: `http://localhost:${port}/images/${req.file.filename}`
+        image_url: `http://localhost:${PORT}/images/${req.file.filename}`
     })
 })
 
@@ -268,10 +269,19 @@ app.post('/getcart', fetchUser, async (req, res) => {
     res.json(userData.cartData)
 })
 
-app.listen(port, (error) => {
-    if(!error) {
-        console.log("Server Running on Port " + port);
-    } else {
-        console.log("Error : " + error);
-    }
+
+// in order to run server we need to call .listen()
+// and then we can also make console.log() to show port info in the terminal
+const server = app.listen(
+    PORT,
+    console.log(`Server Running on ${PORT}`.yellow.bold)
+)
+
+// handle unhandled rejection
+process.on('unhandledRejection', (err, promise) => {
+    console.log(`Error: ${err.message}`.red)
+    // close the server & exit
+    server.close(() => {
+        process.exit(1)
+    })
 })
