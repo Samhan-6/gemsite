@@ -1,4 +1,5 @@
-// to run 'node ./index.js'
+// now we installed nodemon for automatic check
+// to run --> npm start
 
 const express = require('express')
 const mongoose = require('mongoose')
@@ -9,6 +10,9 @@ const cors = require('cors')
 const dotenv = require('dotenv')
 const connectDB = require('./config/db')
 const colors = require('colors')
+
+const Product = require('./models/Product')
+const Users = require('./models/User')
 
 // load env vars
 dotenv.config({path: './config/config.env'})
@@ -50,42 +54,6 @@ app.post('/upload', upload.single('product'), (req, res) => {
         success: 1,
         image_url: `http://localhost:${PORT}/images/${req.file.filename}`
     })
-})
-
-// schema for creating products
-const Product = mongoose.model("Product", {
-    id: {
-        type: Number,
-        required: true,
-    },
-    name: {
-        type: String,
-        required: true,
-    },
-    image: {
-        type: String,
-        required: true,
-    },
-    category: {
-        type: String,
-        required: true
-    },
-    new_price: {
-        type: Number,
-        required: true,
-    },
-    old_price: {
-        type: Number,
-        required: true,
-    }, 
-    date: {
-        type: Date,
-        default: Date.now,
-    },
-    available: {
-        type: Boolean,
-        default: true,
-    },
 })
 
 // creating api for add products
@@ -134,27 +102,6 @@ app.get('/allproducts', async (req, res) => {
     let products = await Product.find({})
     console.log('All Products Fetched successfully!');
     res.send(products)
-})
-
-// shema creating for User model
-const Users = mongoose.model('Users', {
-    name: {
-        type:String,
-    },
-    email:{
-        type:String,
-        unique:true,
-    },
-    password: {
-        type:String,
-    },
-    cartData:{
-        type:Object,
-    },
-    date:{
-        type:Date,
-        default:Date.now,
-    }
 })
 
 // creating endpoint for registering the user
