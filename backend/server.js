@@ -1,10 +1,6 @@
 // to run 'node ./index.js'
 
-// here we define our backend codes
-
-const port = 4000
 const express = require('express')
-const app = express()
 const mongoose = require('mongoose')
 const jwt = require('jsonwebtoken')
 const multer = require('multer')
@@ -17,15 +13,17 @@ const colors = require('colors')
 // load env vars
 dotenv.config({path: './config/config.env'})
 
-app.use(express.json())
-app.use(cors())
-
 // Databse connection
 connectDB()
 
+// initialize app variable with express()
+const app = express()
 
-// database connection to mongo db compass
-// mongoose.connect('mongodb://localhost:27017/gemsite')
+// body parser
+app.use(express.json())
+app.use(cors())
+
+
 
 
 // api creation
