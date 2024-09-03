@@ -10,13 +10,18 @@ const jwt = require('jsonwebtoken')
 const multer = require('multer')
 const path = require('path')
 const cors = require('cors')
+const dotenv = require('dotenv')
+const connectDB = require('./config/db')
+const colors = require('colors')
+
+// load env vars
+dotenv.config({path: './config/config.env'})
 
 app.use(express.json())
 app.use(cors())
 
 // Databse connection
-mongoose.connect('mongodb+srv://msmsamhan844:5WV8Dk0fV9WBBkYV@cluster0.xqydnu7.mongodb.net/e-commerce')
-
+connectDB()
 
 
 // database connection to mongo db compass
