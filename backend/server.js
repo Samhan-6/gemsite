@@ -221,7 +221,7 @@ app.post('/getcart', fetchUser, async (req, res) => {
 // and then we can also make console.log() to show port info in the terminal
 const server = app.listen(
     PORT,
-    console.log(`Server Running on ${PORT}`.yellow.bold)
+    console.log(`Server Running on the ${process.env.NODE_ENV} mode on port ${PORT}`.yellow.bold)
 )
 
 // handle unhandled rejection
