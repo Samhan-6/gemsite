@@ -1,4 +1,5 @@
 const mongoose = require('mongoose');
+const slugify = require('slugify');
 
 const ProductSchema = new mongoose.Schema(
   {
@@ -57,5 +58,11 @@ const ProductSchema = new mongoose.Schema(
     timestamps: true,
   },
 );
+
+// create product slug from the name
+ProductSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true });
+  next();
+});
 
 module.exports = mongoose.model('Product', ProductSchema);

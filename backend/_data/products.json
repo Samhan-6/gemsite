@@ -1,0 +1,70 @@
+[
+  {
+    "name": "Ruby Necklace",
+    "slug": "ruby-necklace",
+    "description": "A stunning necklace featuring a large ruby centerpiece, perfect for special occasions.",
+    "category": ["precious"],
+    "new_price": 2500,
+    "old_price": 3000,
+    "photo": "ruby-necklace.jpg",
+    "photos": [
+      {
+        "url": "ruby-necklace-side1.jpg",
+        "alt": "Side view of Ruby Necklace"
+      },
+      {
+        "url": "ruby-necklace-side2.jpg",
+        "alt": "Another side view of Ruby Necklace"
+      }
+    ],
+    "ratings": 4.5
+  },
+  {
+    "name": "Emerald Ring",
+    "slug": "emerald-ring",
+    "description": "An elegant emerald ring with a handcrafted band, symbolizing luxury and grace.",
+    "category": ["semi"],
+    "new_price": 1500,
+    "old_price": 1800,
+    "photo": "emerald-ring.jpg",
+    "photos": [
+      {
+        "url": "emerald-ring-side1.jpg",
+        "alt": "Side view of Emerald Ring"
+      }
+    ],
+    "ratings": 4.0
+  },
+  {
+    "name": "Sapphire Earrings",
+    "slug": "sapphire-earrings",
+    "description": "Beautiful sapphire earrings that add a touch of glamour to any outfit.",
+    "category": ["unique"],
+    "new_price": 1800,
+    "old_price": 2000,
+    "photo": "sapphire-earrings.jpg",
+    "photos": [
+      {
+        "url": "sapphire-earrings-side1.jpg",
+        "alt": "Side view of Sapphire Earrings"
+      }
+    ],
+    "ratings": 5
+  },
+  {
+    "name": "Diamond Bracelet",
+    "slug": "diamond-bracelet",
+    "description": "A luxurious diamond bracelet, designed to sparkle at every angle.",
+    "category": ["precious"],
+    "new_price": 5000,
+    "old_price": 5500,
+    "photo": "diamond-bracelet.jpg",
+    "photos": [
+      {
+        "url": "diamond-bracelet-side1.jpg",
+        "alt": "Side view of Diamond Bracelet"
+      }
+    ],
+    "ratings": 4.8
+  }
+]
