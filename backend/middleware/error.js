@@ -1,43 +1,80 @@
-const ErrorResponse = require('../utils/errorResponse');
+const ErrorResponse = require('../utils/errorResponse')
 
-const errorHandler = (err, req, res, next) => {
-  // let's create new variable called error and make copy from 'err' object
-  // to do that we used spread operator => '...'
-  let error = { ...err };
+const handleCastErrorDB = (err) => {
+  const message = `There is no ${err.path} : ${err.value}`
+  return new ErrorResponse(message, 400)
+}
 
-  // it takes all the property from 'err' and put in 'error' variable
-  error.message = err.message;
+const handleDuplicateFieldDB = (err) => {
+  const value = err.errmsg.match(/(["'])(?:(?=(\\?))\2.)*?\1/)[0]
+  const message = `Duplicate field value: ${value} please use another value!`
+  return new ErrorResponse(message, 400)
+}
 
-  // log to console for dev
-  console.log(err);
+const handleValidationErrorDB = (err) => {
+  const errors = Object.values(err.errors).map((el) => el.message)
+  const message = `Invalid data input => ${errors.join(`. `)}`
+  return new ErrorResponse(message, 400)
+}
 
-  // mongoose bad object id
-  if (err.name === 'CastError') {
-    const message = `Resource is not found with id of ${err.value}`;
-    error = new ErrorResponse(message, 404);
+const handleJWTError = () => {
+  return new ErrorResponse('Invalid token!, Please login again.', 401)
+}
+
+const handleJWTExpiredError = () => {
+  return new ErrorResponse(
+    'Your token has been expired! Please login again.',
+    401,
+  )
+}
+
+const sendErrorDevelopment = (err, res) => {
+  res.status(err.statusCode).json({
+    status: err.status,
+    error: err,
+    message: err.message,
+    stack: err.stack,
+  })
+}
+
+const sendErrorProduction = (err, res) => {
+  // Operational, trusted error => we can send this type of error to the clients
+  if (err.isOperational) {
+    res.status(err.statusCode).json({
+      status: err.statusCode,
+      message: err.message,
+    })
+    // Programming error, we don't want to leak this type of error to the clients
+  } else {
+    // 1) log to the console
+    console.error('ERROR 💥', err)
+
+    // 2) send generic message
+    res.status(500).json({
+      status: 'error',
+      message: 'Something went wrong!',
+    })
   }
+}
 
-  // mongoose duplicate key
-  if (err.code === 11000) {
-    const message = 'Duplicate field value entered';
-    error = new ErrorResponse(message, 400);
+module.exports = (err, req, res, next) => {
+  err.statusCode = err.statusCode || 500
+  err.status = err.status || 'error'
+
+  if (process.env.NODE_ENV === 'development') {
+    sendErrorDevelopment(err, res)
+  } else if (process.env.NODE_ENV === 'production') {
+    // handle caste error
+    if (err.name === 'castError') err = handleCastErrorDB(err)
+    // handle duplicate key error
+    if (err.code === 11000) err = handleDuplicateFieldDB(err)
+    // handle validation error
+    if (err.name === 'ValidationError') err = handleValidationErrorDB(err)
+    // handle JsonWebTokenError
+    if (err.name === 'JsonWebTokenError') err = handleJWTError()
+    // handle TokenExpiredError
+    if (err.name === 'TokenExpiredError') err = handleJWTExpiredError()
+
+    sendErrorProduction(err, res)
   }
-
-  // mongoose validation error
-  if (err.name === 'ValidationError') {
-    // doing little javascript to extract the message
-    // let's get the values using 'Object.values'
-    // Object.values(let's pass the 'err.errors', this will get the all the values of each one)
-    // we need just the message, so we use map(this will map each one and we can extract what we want)
-    const message = Object.values(err.errors).map((val) => val.message);
-    // now let's put in the output message
-    error = new ErrorResponse(message, 400);
-  }
-
-  res.status(error.statusCode || 500).json({
-    success: false,
-    error: error.message || 'Server Error',
-  });
-};
-
-module.exports = errorHandler;
+}
