@@ -1,22 +1,22 @@
-const express = require('express');
+const express = require('express')
 
 const {
   getProducts,
-  addProducts,
   getProduct,
-  updateProducts,
-  deleteProducts,
+  createProduct,
+  updateProduct,
+  deleteProduct,
   productPhotoUpload,
-} = require('../controllers/products');
+} = require('../controllers/products')
 
 // initialize the router
-const router = express.Router();
+const router = express.Router()
 
 // file upload route
-router.route('/:id/photos').put(productPhotoUpload);
+router.route('/:id/photos').put(productPhotoUpload)
 
-router.route('/').get(getProducts).post(addProducts);
+router.route('/').get(getProducts).post(createProduct)
 
-router.route('/:id').get(getProduct).put(updateProducts).delete(deleteProducts);
+router.route('/:id').get(getProduct).put(updateProduct).delete(deleteProduct)
 
-module.exports = router;
+module.exports = router
