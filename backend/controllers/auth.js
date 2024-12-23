@@ -1,215 +1,229 @@
-const crypto = require('crypto');
-const ErrorResponse = require('../utils/errorResponse');
-const asyncHandler = require('../middleware/async');
-const sendEmail = require('../utils/sendEmail');
-const User = require('../models/User');
+const crypto = require('crypto')
+const { promisify } = require('util')
+const jwt = require('jsonwebtoken')
+const User = require('../models/User')
+const ErrorResponse = require('../utils/errorResponse')
+const asyncHandler = require('../middleware/async')
+const sendEmail = require('../utils/sendEmail')
 
-// @desc    register user
-// @route   POST /api/v1/auth/register
-// access   public
-exports.register = asyncHandler(async (req, res, next) => {
-  const { name, email, password, role } = req.body;
+const signToken = (id) => {
+  jwt.sign({ id }, process.env.JWT_SECRET, {
+    expiresIn: process.env.JWT_EXPIRES_IN,
+  })
+}
 
-  //   create user
+const createSendToken = (user, statusCode, res) => {
+  const token = signToken(user._id)
+
+  const cookieOptions = {
+    expires: new Date(
+      Date.now() + process.env.JWT_COOKIE_EXPIRES_IN * 24 * 60 * 60 * 1000,
+    ),
+    httpOnly: true,
+  }
+
+  // we set secure = true, only when we are in production. Because it will only runs in HTTPS
+  if (process.env.NODE_ENV === 'production') cookieOptions.secure = true
+
+  res.cookie('jwt', token, cookieOptions)
+
+  // removed password from the output
+  user.password = undefined
+
+  res.status(statusCode).json({
+    status: true,
+    token,
+    data: {
+      user,
+    },
+  })
+}
+
+// @desc    Signup user
+// @route   POST /api/v1/auth/signup
+// access   Public
+exports.signup = asyncHandler(async (req, res, next) => {
   const user = await User.create({
-    name,
-    email,
-    password,
-    role,
-  });
+    name: req.body.name,
+    email: req.body.email,
+    password: req.body.password,
+    passwordConfirm: req.body.passwordConfirm,
+  })
 
-  sendTokenResponse(user, 200, res);
-});
+  createSendToken(user, 201, res)
+})
 
 // @desc    Login user
 // @route   POST /api/v1/auth/login
-// access   public
-exports.login = asyncHandler(async (req, res, next) => {
-  const { email, password } = req.body;
-
-  // validate email & password
-  if (!email || !password) {
-    return next(new ErrorResponse(`Please provide email & password`, 400));
-  }
-
-  // check for user
-  const user = await User.findOne({ email }).select('+password');
-
-  if (!user) {
-    return next(new ErrorResponse('Invalid credentials', 401));
-  }
-
-  // check if password is match
-  const isMatch = await user.matchPassword(password);
-
-  if (!isMatch) {
-    return next(new ErrorResponse('Invalid credentials', 401));
-  }
-
-  sendTokenResponse(user, 200, res);
-});
-
-// @desc    Logout user and clear cookie
-// @route   GET /api/v1/auth/logout
-// access   Private
-exports.logout = asyncHandler(async (req, res, next) => {
-  res.cookie('token', 'none', {
-    expires: new Date(Date.now() + 10 * 1000),
-    httpOnly: true,
-  });
-
-  res.status(200).json({
-    success: false,
-    data: {},
-  });
-});
-
-// @desc    Get Current logged in user
-// @route   POST /api/v1/auth/me
-// access   Private
-exports.getMe = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id);
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
-
-// @desc    Update user details
-// @route   PUT /api/v1/auth/updatedetails
-// access   Private
-exports.updateDetails = asyncHandler(async (req, res, next) => {
-  // update name & email
-  const fieldsToUpdate = {
-    name: req.body.name,
-    email: req.body.email,
-  };
-
-  const user = await User.findByIdAndUpdate(req.user.id, fieldsToUpdate, {
-    new: true,
-    runValidators: true,
-  });
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
-
-// @desc    Update user password
-// @route   PUT /api/v1/auth/updatepassword
-// access   Private
-exports.updatePassword = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.user.id).select('+password');
-
-  // check current password
-  if (!(await user.matchPassword(req.body.currentPassword))) {
-    return next(new ErrorResponse('Password is incorrect', 401));
-  }
-
-  user.password = req.body.newPassword;
-  await user.save();
-
-  sendTokenResponse(user, 200, res);
-});
-
-// @desc    forgot password
-// @route   POST /api/v1/auth/forgotpassword
 // access   Public
-exports.forgotPassword = asyncHandler(async (req, res, next) => {
-  const user = await User.findById({ email: req.body.email });
+exports.login = asyncHandler(async (req, res, next) => {
+  const { email, password } = req.body
 
-  if (!user) {
-    return next(new ErrorResponse('There is no user with that email', 404));
+  // 1) check email & pass are exist
+  if (!email || !password) {
+    return next(new ErrorResponse(`Please provide email & password`, 400))
   }
 
-  // get reset token
-  const resetToken = user.getResetPasswordToken();
+  // 2) check user is exist & password is correct
+  const user = await User.findOne({ email }).select('+password')
 
-  await user.save({ validateBeforeSave: false });
+  if (!user || !(await user.correctPassword(password, user.password))) {
+    return next(new ErrorResponse('Incorrect email or password!!!', 401))
+  }
 
-  // create reset url
-  const resetUrl = `${req.protocol}://${req.get('host')}/api/v1/auth/resetPassword/${resetToken}`;
+  // 3) if all ok, send jwt token
+  createSendToken(user, 200, res)
+})
 
-  const message = `Please reset password : \n\n${resetUrl}`;
+exports.protect = asyncHandler(async (req, res, next) => {
+  // 1) getting token and check the token is there
+  let token
+  if (
+    req.headers.authorization &&
+    req.headers.authorization.startsWith('Bearer')
+  ) {
+    token = req.headers.authorization.split(' ')[1]
+  }
+
+  if (!token) {
+    return next(
+      new ErrorResponse(
+        'You are not logged in! Please login to get access',
+        401,
+      ),
+    )
+  }
+
+  // 2) verification of token
+  const decoded = await promisify(jwt.verify)(token, process.env.JWT_SECRET)
+
+  // 3) check the users still alive
+  const currentUser = await User.findById(decoded.id)
+  if (!currentUser) {
+    return next(
+      new ErrorResponse(
+        'The user belonging to this token has no longer exist!',
+        401,
+      ),
+    )
+  }
+
+  // 4) check if the user changed the password after token was issued
+  if (currentUser.changedPasswordAfter(decoded.iat)) {
+    return next(
+      new ErrorResponse(
+        'User recently change password! Please login again',
+        401,
+      ),
+    )
+  }
+
+  // GRANT ACCESS TO PROTECTED ROUTE
+  req.user = currentUser
+  next()
+})
+
+exports.restrictTo =
+  (...roles) =>
+  (req, res, next) => {
+    if (!roles.includes(req.user.role)) {
+      return next(
+        new AppError('You do not have permission to perform this action', 403),
+      )
+    }
+    next()
+  }
+
+exports.forgotPassword = asyncHandler(async (req, res, next) => {
+  // 1) Get user based on Posted email
+  const user = await User.findOne({ email: req.body.email })
+
+  if (!user) {
+    return next(
+      new ErrorResponse('There is no user with following email address', 404),
+    )
+  }
+
+  // 2) Generate Random reset token, (created instance funtion in userModel.js)
+  const resetToken = user.createPasswordResetToken()
+  await user.save({ validateBeforeSave: false })
+
+  // 3) send it to user's email
+  const resetURL = `${req.protocol}://${req.get('host')}/api/v1/users/resetPassword/${resetToken}`
+
+  const message = `Forgot your password? Submit a patch request with your new password 
+  and passwordConfirm to : ${resetURL}.\n If you didn't forgot your password, please ignore this email`
 
   try {
     await sendEmail({
       email: user.email,
-      subject: 'Password Reset Token',
+      subject: 'Your reset password token, (Only valid for 10 minutes)',
       message,
-    });
+    })
 
     res.status(200).json({
-      success: true,
-      data: 'Email Sent',
-    });
+      status: 'true',
+      message: 'Token sent to your email!!',
+    })
   } catch (err) {
-    console.log(err);
+    // if there is any error we should undefined our passwordResetToken & passwordResetExpire
+    user.passwordResetToken = undefined
+    user.passwordResetExpire = undefined
 
-    user.resetPasswordToken = undefined;
-    user.resetPasswordExpire = undefined;
+    // then we need to save our data in the DB
+    await user.save({ validateBeforeSave: false })
 
-    await user.save({ validateBeforeSave: false });
-
-    return next(new ErrorResponse('Email could not be spent', 500));
+    return next(
+      new ErrorResponse(
+        'Error while sending email, Please try again later',
+        500,
+      ),
+    )
   }
+})
 
-  res.status(200).json({
-    success: true,
-    data: user,
-  });
-});
-
-// @desc    Reset password
-// @route   PUT /api/v1/auth/resetpassword/:resettoken
-// access   Public
 exports.resetPassword = asyncHandler(async (req, res, next) => {
-  // get hashed token
-  const resetPasswordToken = crypto
+  // 1) Get user based on token
+  const hashedToken = crypto
     .createHash('sha256')
-    .update(req.params.resetToken)
-    .digest('hex');
+    .update(req.params.token)
+    .digest('hex')
 
   const user = await User.findOne({
-    resetPasswordToken,
-    resetPasswordExpire: { $gt: Date.now() },
-  });
+    passwordResetToken: hashedToken,
+    passwordResetExpire: { $gt: Date.now() },
+  })
 
+  // 2) If the token has not expired, and there is a user, set new password
   if (!user) {
-    return next(new ErrorResponse(`Invalid Token`, 400));
+    return next(new ErrorResponse('Token is invalid or has expired', 400))
   }
 
-  //  set new password
-  user.password = req.body.password;
-  user.resetPasswordToken = undefined;
-  user.resetPasswordExpire = undefined;
+  user.password = req.body.password
+  user.passwordConfirm = req.body.passwordConfirm
+  user.passwordResetToken = undefined
+  user.passwordResetExpire = undefined
+  await user.save()
 
-  await user.save();
+  // 3) Update the changedPasswordAt property for the user
 
-  sendTokenResponse(user, 200, res);
-});
+  // 4) Log the user In, send JWT
+  createSendToken(user, 200, res)
+})
 
-// Get token from model, create cookie and send response
-const sendTokenResponse = (user, statusCode, res) => {
-  // create token
-  const token = user.getSignedJwtToken();
+exports.updatePassword = asyncHandler(async (req, res, next) => {
+  // 1) get user from collection
+  const user = await User.findById(req.user.id).select('+password')
 
-  const options = {
-    expires: new Date(
-      Date.now() + process.env.JWT_COOKIE_EXPIRE * 24 * 60 * 60 * 1000,
-    ),
-    httpOnly: true,
-  };
-
-  // if it is 'production', it will enable https
-  if (process.env.NODE_ENV === 'production') {
-    options.secure = true;
+  // 2) check for POSTed current password is correct
+  if (!(await user.correctPassword(req.body.passwordCurrent, user.password))) {
+    return next(new ErrorResponse('Your current password is wrong!', 401))
   }
+  // 3) if so, update the password
+  user.password = req.body.password
+  user.passwordConfirm = req.body.passwordConfirm
+  await user.save()
 
-  res.status(statusCode).cookie('token', token, options).json({
-    success: true,
-    token,
-  });
-};
+  // 4) log user in, send JWT
+  createSendToken(user, 200, res)
+})
