@@ -1,68 +1,67 @@
-const mongoose = require('mongoose');
-const slugify = require('slugify');
+const mongoose = require('mongoose')
+const slugify = require('slugify')
 
-const ProductSchema = new mongoose.Schema(
-  {
-    name: {
-      type: String,
-      required: [true, 'Please add a name'],
-      unique: true,
-      trim: true,
-      maxlength: [50, 'Name can not be more than 50 characters'],
+const productSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: [true, 'Product must have a name'],
+    unique: true,
+    trim: true,
+    maxlength: [40, 'Name can not be more than 50 characters'],
+    minlength: [10, 'Name can not be less than 10 characters'],
+  },
+  slug: String,
+  description: {
+    type: String,
+    require: [true, 'Please add a description'],
+    maxlength: [300, 'Description can not be more than 500 characters'],
+    minlength: [50, 'Description can not be less than 50 characters'],
+  },
+  category: {
+    type: [String],
+    required: true,
+    enum: {
+      values: ['precious', 'semi', 'unique'],
+      message: 'Category is either : precious, semi, unique',
     },
-    slug: String,
-    description: {
-      type: String,
-      require: [true, 'Please add a description'],
-      maxlength: [500, 'Description can not be more than 500 characters'],
-    },
-    category: {
-      type: [String],
-      required: true,
-      enum: ['precious', 'semi', 'unique'],
-    },
-    new_price: {
-      type: Number,
-      required: true,
-    },
-    old_price: {
-      type: Number,
-      required: true,
-    },
-    // this used for single image which mean main image
-    photo: {
-      type: String,
-      default: 'no-photo.jpg',
-    },
-    // multiple image access for side views of products
-    photos: [
-      {
-        url: {
-          type: String,
-        },
-        alt: {
-          type: String,
-          default: 'no-photo.jpg',
-        },
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+  discountPrice: {
+    type: Number,
+    required: true,
+    validate: {
+      validator: function (val) {
+        return val < this.price
       },
-    ],
-    // ratings
-    ratings: {
-      type: Number,
-      default: 1,
-      min: [1, 'Rating must be at least 1'],
-      max: [5, 'Rating cannot be more than 5'],
+      message: 'Discount price ({VALUE}) should be less than regular price',
     },
   },
-  {
-    timestamps: true,
+  // this used for single image which mean main image
+  mainImage: {
+    type: String,
+    unique: [true, 'Product must have main image'],
   },
-);
+  // multiple image access for side views of products
+  photos: [String],
+  ratings: {
+    type: Number,
+    default: 4.5,
+    min: [1, 'Rating must be greater than 1.0'],
+    max: [5, 'Rating must be less than 5.0'],
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now(),
+  },
+})
 
 // create product slug from the name
-ProductSchema.pre('save', function (next) {
-  this.slug = slugify(this.name, { lower: true });
-  next();
-});
+productSchema.pre('save', function (next) {
+  this.slug = slugify(this.name, { lower: true })
+  next()
+})
 
-module.exports = mongoose.model('Product', ProductSchema);
+module.exports = mongoose.model('Product', productSchema)
