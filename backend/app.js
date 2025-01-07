@@ -11,8 +11,10 @@ const multer = require('multer')
 
 const ErrorResponse = require('./utils/errorResponse')
 const errorHandler = require('./middleware/error')
+
 const productRoute = require('./routes/products')
 const userRoute = require('./routes/users')
+const reviewRoute = require('./routes/reviews')
 
 const app = express()
 
@@ -58,6 +60,7 @@ app.use((req, res, next) => {
 
 app.use('/api/v1/products', productRoute)
 app.use('/api/v1/users', userRoute)
+app.use('/api/v1/reviews', reviewRoute)
 
 // custom error => if the url is not found
 app.all('*', (req, res, next) => {
