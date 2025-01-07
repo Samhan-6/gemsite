@@ -1,6 +1,7 @@
 const ErrorResponse = require('../utils/errorResponse')
 const asyncHandler = require('../middleware/async')
 const User = require('../models/User')
+const factory = require('./handlerFactory')
 
 const filterObj = (obj, ...allowedFields) => {
   const newObj = {}
@@ -11,17 +12,10 @@ const filterObj = (obj, ...allowedFields) => {
   return newObj
 }
 
-// @desc    get all users
-// @route   GET /api/v1/users
-// access   public
-exports.getUsers = asyncHandler(async (req, res, next) => {
-  const users = await User.find()
-
-  res.status(200).json({
-    success: true,
-    count: users.length,
-    data: users,
-  })
+// get personal details of own user
+exports.getMe = asyncHandler(async (req, res, next) => {
+  req.params.id = req.user.id
+  next()
 })
 
 exports.updateMe = asyncHandler(async (req, res, next) => {
@@ -64,63 +58,27 @@ exports.deleteMe = asyncHandler(async (req, res, next) => {
   })
 })
 
+// @desc    get all users
+// @route   GET /api/v1/users
+// access   public
+exports.getUsers = factory.getAll(User)
+
 // @desc    get single user
 // @route   GET /api/v1/users/:id
 // access   public
-exports.getUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findById(req.params.id)
-
-  if (!user) {
-    return next(
-      new ErrorResponse(`User is not found with id of ${req.params.id}`, 404),
-    )
-  }
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  })
-})
+exports.getUser = factory.getOne(User)
 
 // @desc    create users
 // @route   POST /api/v1/users
 // access   Private
-exports.createUser = asyncHandler(async (req, res, next) => {
-  const user = await User.create(req.body)
-
-  res.status(201).json({
-    success: true,
-    data: user,
-  })
-})
+exports.createUser = factory.createOne(User)
 
 // @desc    Update users
 // @route   PUT /api/v1/users/:id
 // access   Private
-exports.updateUser = asyncHandler(async (req, res, next) => {
-  const user = await User.findByIdAndUpdate(req.params.id, req.body, {
-    new: true,
-    runValidators: true,
-  })
-
-  if (!user) {
-    return next(new ErrorResponse('There is no user with that Id', 404))
-  }
-
-  res.status(200).json({
-    success: true,
-    data: user,
-  })
-})
+exports.updateUser = factory.updateOne(User)
 
 // @desc    Delete users
 // @route   DELETE /api/v1/users/:id
 // access   Private
-exports.deleteUser = asyncHandler(async (req, res, next) => {
-  await User.findByIdAndDelete(req.params.id)
-
-  res.status(204).json({
-    success: true,
-    data: null,
-  })
-})
+exports.deleteUser = factory.deleteOne(User)

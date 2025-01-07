@@ -1,66 +1,43 @@
-const mongoose = require('mongoose');
+const mongoose = require('mongoose')
 
-const ReviewSchema = new mongoose.Schema(
-  {
-    title: {
-      type: String,
-      trim: true,
-      required: [true, 'Please add a title for review'],
-      maxlength: [50, 'No more than 50 words'],
-    },
-    text: {
-      type: String,
-      required: [true, 'Please add some text'],
-    },
-    rating: {
-      type: Number,
-      min: 1,
-      max: 5,
-    },
+const reviewSchema = new mongoose.Schema({
+  review: {
+    type: String,
+    required: [true, 'Review cannot be empty!'],
   },
-  {
-    timestamps: true,
+  rating: {
+    type: Number,
+    min: 1,
+    max: 5,
   },
-);
+  createAt: {
+    type: Date,
+    default: Date.now(),
+  },
+  product: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'Product',
+    required: [true, 'Review must belong to the Product'],
+  },
+  user: {
+    type: mongoose.Schema.ObjectId,
+    ref: 'User',
+    required: [true, 'Review must belong to the User'],
+  },
+})
 
-// prevent user from submitting more than 1 review for each product
-ReviewSchema.index({ product: 1, user: 1 }, { unique: true });
+// populate
+reviewSchema.pre(/^find/, function (next) {
+  this.populate({
+    path: 'product',
+    select: 'name',
+  }).populate({
+    path: 'user',
+    select: 'name photo',
+  })
+  next()
+})
 
-// static method to get average rating and save
-ReviewSchema.statics.getAverageRating = async function (productId) {
-  const obj = await this.aggregate([
-    {
-      $match: {
-        product: productId,
-      },
-    },
-    {
-      $group: {
-        _id: '$product',
-        averageRating: {
-          $avg: '$rating',
-        },
-      },
-    },
-  ]);
+const Review = mongoose.model('Review', reviewSchema)
 
-  try {
-    await this.model('Product').findByIdAndUpdate(productId, {
-      averageRating: obj[0].averageRating,
-    });
-  } catch (err) {
-    console.error(err);
-  }
-};
-
-// call getAverageRating before save
-ReviewSchema.post('save', function () {
-  this.constructor.getAverageRating(this.product);
-});
-
-// call getAverageRating before remove
-ReviewSchema.pre('deleteOne', { document: true }, function () {
-  this.constructor.getAverageRating(this.product);
-});
-
-exports.model = mongoose.model('Review', ReviewSchema);
+module.exports = Review

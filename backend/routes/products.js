@@ -9,14 +9,28 @@ const {
   productPhotoUpload,
 } = require('../controllers/products')
 
+const { protect, restrictTo } = require('../controllers/auth')
+
+const reviewRouter = require('./reviews')
+
 // initialize the router
 const router = express.Router()
+
+// adding review route, so user can create new reviews on products
+router.use('/:productId/reviews', reviewRouter)
 
 // file upload route
 router.route('/:id/photos').put(productPhotoUpload)
 
-router.route('/').get(getProducts).post(createProduct)
+router
+  .route('/')
+  .get(getProducts)
+  .post(protect, restrictTo('admin'), createProduct)
 
-router.route('/:id').get(getProduct).put(updateProduct).delete(deleteProduct)
+router
+  .route('/:id')
+  .get(getProduct)
+  .put(protect, restrictTo('admin'), updateProduct)
+  .delete(protect, restrictTo('admin'), deleteProduct)
 
 module.exports = router
