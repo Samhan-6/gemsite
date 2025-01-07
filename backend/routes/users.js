@@ -1,17 +1,43 @@
-const express = require('express');
+const express = require('express')
 
 const {
   getUsers,
   getUser,
-  addUsers,
-  updateUsers,
-  deleteUsers,
-} = require('../controllers/users');
+  createUser,
+  updateUser,
+  deleteUser,
+  updateMe,
+  deleteMe,
+  getMe,
+} = require('../controllers/users')
 
-const router = express.Router();
+const {
+  protect,
+  signup,
+  login,
+  forgotPassword,
+  resetPassword,
+  updatePassword,
+} = require('../controllers/auth')
 
-router.route('/').get(getUsers).post(addUsers);
+const router = express.Router()
 
-router.route('/:id').get(getUser).put(updateUsers).delete(deleteUsers);
+router.post('/signup', signup)
+router.post('/login', login)
+router.post('/forgotPassword', forgotPassword)
+router.patch('/resetPassword/:token', resetPassword)
 
-module.exports = router;
+// using protect middleware in all our routes
+// after this line of code all the routes are protected
+// so, we don't need to add protect middleware in each of routes
+router.use(protect)
+
+router.patch('/updateMyPassword', updatePassword)
+router.get('/me', getMe, getUser)
+router.patch('/updateMe', updateMe)
+router.delete('/deleteMe', deleteMe)
+
+router.route('/').get(getUsers).post(createUser)
+router.route('/:id').get(getUser).put(updateUser).delete(deleteUser)
+
+module.exports = router
