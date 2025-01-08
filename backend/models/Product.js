@@ -47,11 +47,15 @@ const productSchema = new mongoose.Schema(
     },
     // multiple image access for side views of products
     photos: [String],
-    ratings: {
+    ratingsAverage: {
       type: Number,
       default: 4.5,
-      min: [1, 'Rating must be greater than 1.0'],
-      max: [5, 'Rating must be less than 5.0'],
+      min: [1, 'Rating must be above 1.0'],
+      max: [5, 'Rating must be below 5.0'],
+    },
+    ratingsQuantity: {
+      type: Number,
+      default: 0,
     },
     createdAt: {
       type: Date,
