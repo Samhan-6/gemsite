@@ -68,6 +68,18 @@ reviewSchema.post('save', function () {
   this.constructor.calculateAverageRatings(this.product)
 })
 
+// findOneAndUpdate
+// findOneAndDelete
+reviewSchema.pre(/^findOneAnd/, async function (next) {
+  this.review = await this.model.findOne(this.getFilter())
+  next()
+})
+
+reviewSchema.post(/^findOneAnd/, async function () {
+  // await this.findOne(); does NOT work here, query has already executed
+  await this.review.constructor.calculateAverageRatings(this.review.product)
+})
+
 const Review = mongoose.model('Review', reviewSchema)
 
 module.exports = Review
