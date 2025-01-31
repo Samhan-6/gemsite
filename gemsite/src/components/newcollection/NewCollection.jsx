@@ -3,12 +3,12 @@ import Item from '../item/Item'
 import { useEffect, useState } from 'react'
 
 const NewCollection = () => {
-  const [new_collection, setNew_collection] = useState([])
+  const [newCollection, setNewCollection] = useState([])
 
   useEffect(() => {
-    fetch('http://localhost:4000/newcollections')
+    fetch('http://localhost:4000/api/v1/products/newcollections')
       .then((response) => response.json())
-      .then((data) => setNew_collection(data))
+      .then((data) => setNewCollection(data))
   }, [])
 
   return (
@@ -16,8 +16,16 @@ const NewCollection = () => {
       <h1>New Collections</h1>
       <hr />
       <div className='collections'>
-        {new_collection.map((item, i) => {
-          return <Item key={i} id={item.id} image={item.image} new_price={item.new_price} old_price={item.old_price} />
+        {newCollection.map((item, i) => {
+          return (
+            <Item
+              key={i}
+              id={item.id}
+              image={item.image}
+              discountPrice={item.discountPrice}
+              price={item.price}
+            />
+          )
         })}
       </div>
     </div>

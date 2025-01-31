@@ -7,6 +7,8 @@ const {
   updateProduct,
   deleteProduct,
   productPhotoUpload,
+  getPopularInPrecious,
+  getNewCollection,
 } = require('../controllers/products')
 
 const { protect, restrictTo } = require('../controllers/auth')
@@ -32,5 +34,8 @@ router
   .get(getProduct)
   .put(protect, restrictTo('admin'), updateProduct)
   .delete(protect, restrictTo('admin'), deleteProduct)
+
+router.route('/newcollection').get(getNewCollection)
+router.route('/popularinprecious').get(getPopularInPrecious)
 
 module.exports = router
