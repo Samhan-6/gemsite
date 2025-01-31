@@ -15,6 +15,7 @@ const errorHandler = require('./middleware/error')
 const productRoute = require('./routes/products')
 const userRoute = require('./routes/users')
 const reviewRoute = require('./routes/reviews')
+const cartRoute = require('./routes/cart')
 
 const app = express()
 
@@ -22,6 +23,16 @@ const app = express()
 
 // set security headers
 app.use(helmet())
+
+const corsOptions = {
+  origin: 'http://localhost:5173',
+  // methods: ['GET', 'POST'], // Specify allowed HTTP methods
+  // allowedHeaders: ['Content-Type'], // Specify allowed headers
+  credentials: true,
+}
+
+// enable cors
+app.use(cors(corsOptions))
 
 // development logging
 if (process.env.NODE_ENV === 'development') {
@@ -61,6 +72,7 @@ app.use((req, res, next) => {
 app.use('/api/v1/products', productRoute)
 app.use('/api/v1/users', userRoute)
 app.use('/api/v1/reviews', reviewRoute)
+app.use('/api/v1/cart', cartRoute)
 
 // custom error => if the url is not found
 app.all('*', (req, res, next) => {

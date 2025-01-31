@@ -29,6 +29,28 @@ exports.updateProduct = factory.updateOne(Product)
 // access   Private
 exports.deleteProduct = factory.deleteOne(Product)
 
+// @desc    Get latest 8 products (New Collection)
+// @route   GET /api/v1/products/newcollection
+// @access  Public
+exports.getNewCollection = asyncHandler(async (req, res) => {
+  const products = await Product.find().sort({ createdAt: -1 }).limit(8) // Fetch the latest 8 products
+  res.status(200).json({
+    success: true,
+    data: products,
+  })
+})
+
+// @desc    Get 4 popular products in 'precious' category
+// @route   GET /api/v1/products/popularinprecious
+// @access  Public
+exports.getPopularInPrecious = asyncHandler(async (req, res) => {
+  const products = await Product.find({ category: 'precious' }).limit(4) // Fetch 4 products in 'precious' category
+  res.status(200).json({
+    success: true,
+    data: products,
+  })
+})
+
 // @desc    file uploads
 // @route   PUT /api/v1/products/:id/photo
 // access   Private
