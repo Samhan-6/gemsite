@@ -9,7 +9,6 @@ const ShopCategory = (props) => {
 
   return (
     <div className='shopcategory'>
-      <img className='shopcategory-banner' src={props.banner} alt='' />
       <div className='shopcategory-index-sort'>
         <p>
           <span>Showing 1-12</span> out of 36 products

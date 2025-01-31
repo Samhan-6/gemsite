@@ -86,14 +86,6 @@ exports.productPhotoUpload = asyncHandler(async (req, res, next) => {
 
 // below this code must be test
 
-// creating api for upload image - ✅ successfully coded
-
-// creating api for add products - ✅ successfully coded
-
-// creating api for deleting products - ✅ successfully coded
-
-// creating api for getting all products - ✅ successfully coded
-
 // // creating endpoint for registering the user
 // app.post(
 //   '/signup',
