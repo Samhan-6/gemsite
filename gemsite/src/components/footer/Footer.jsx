@@ -25,7 +25,10 @@ const Footer = () => {
 
       <div className='footer-social-icon'>
         <div className='footer-icons-container'>
-          <a href='https://www.instagram.com/rajwa_gems/' target='_blank' rel='noopener noreferrer'>
+          <a
+            href='https://www.instagram.com/rajwa_gems/'
+            target='_blank'
+            rel='noopener noreferrer'>
             <img src={instagram_icon} alt='Instagram' />
           </a>
         </div>
@@ -35,7 +38,10 @@ const Footer = () => {
           </a>
         </div>
         <div className='footer-icons-container'>
-          <a href='https://wa.me/+94761509204' target='_blank' rel='noopener noreferrer'>
+          <a
+            href='https://wa.me/+94761509204'
+            target='_blank'
+            rel='noopener noreferrer'>
             <img src={whatsapp_icon} alt='WhatsApp' />
           </a>
         </div>
@@ -50,7 +56,7 @@ const Footer = () => {
       </div>
       <div className='footer-copyright'>
         <hr />
-        <p> &copy; 2024 - All Right Reserved. Rajwa Gems</p>
+        <p> &copy; 2024 - All Right Reserved. Samhan Gems</p>
       </div>
     </div>
   )

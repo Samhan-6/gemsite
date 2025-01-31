@@ -7,16 +7,17 @@ import DescriptionBox from '../descriptionbox/DescriptionBox'
 import RelatedProducts from '../relatedproducts/RelatedProducts'
 
 const Product = () => {
-  const { all_product } = useContext(ShopContext)
-  const { productId } = useParams()
-  const product = all_product.find((e) => e.id === Number(productId))
+  const { allProduct } = useContext(ShopContext)
+  const { id } = useParams()
+
+  const product = allProduct.find((e) => e._id === id)
 
   return (
     <div>
       <BreadCrum product={product} />
       <ProductDisplay product={product} />
-      <DescriptionBox />
-      <RelatedProducts />
+      <DescriptionBox product={product} />
+      <RelatedProducts product={product._id} />
     </div>
   )
 }
